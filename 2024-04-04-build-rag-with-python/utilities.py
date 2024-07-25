@@ -15,7 +15,7 @@ def get_filename_from_cd(cd):
     return unquote(fname)
   
 def download_file(url):
-    with requests.get(url, stream=True) as r:
+    with requests.get(url, stream=True, timeout=60) as r:
         r.raise_for_status()
         filename = get_filename_from_cd(r.headers.get('content-disposition'))
         if not filename:
