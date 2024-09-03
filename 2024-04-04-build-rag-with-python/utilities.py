@@ -1,6 +1,7 @@
-import re, os, requests, magic, ollama, string, configparser
+import re, os, magic, ollama, string, configparser
 from urllib.parse import unquote, urlparse
 from bs4 import BeautifulSoup
+from security import safe_requests
 
 
 def get_filename_from_cd(cd):
@@ -15,7 +16,7 @@ def get_filename_from_cd(cd):
     return unquote(fname)
   
 def download_file(url):
-    with requests.get(url, stream=True) as r:
+    with safe_requests.get(url, stream=True) as r:
         r.raise_for_status()
         filename = get_filename_from_cd(r.headers.get('content-disposition'))
         if not filename:
