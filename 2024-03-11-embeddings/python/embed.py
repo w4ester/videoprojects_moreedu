@@ -1,6 +1,6 @@
 import re, glob, ollama, json, os
 from typing import List
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree
 
 def time_to_seconds(time):
   hours, minutes, seconds = [int(x) for x in time.split(":")]
@@ -44,7 +44,7 @@ def get_title_and_id(filename):
     return {'title': title, 'id': id}
 
 def parse_xml(xmlstring, id, title):
-    tree = ET.fromstring(xmlstring)
+    tree = defusedxml.ElementTree.fromstring(xmlstring)
     elements = tree.findall('.//{http://www.w3.org/ns/ttml}p')
     subtitles = []
     for p in elements:
